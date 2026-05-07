@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>คู่มือตรวจรับพัสดุ — มหาวิทยาลัยแม่ฟ้าหลวง</title>
+<link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Sarabun', sans-serif;
+    background: #F0F2F5;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 32px 16px 48px;
+  }
+  .page {
+    background: #fff;
+    width: 100%;
+    max-width: 680px;
+    border-radius: 12px;
+    box-shadow: 0 2px 16px rgba(0,0,0,0.10);
+    overflow: hidden;
+  }
+  .page-inner { padding: 28px 32px 32px; }
+
+  /* Header */
+  .header { border-bottom: 2px solid #0C447C; padding-bottom: 14px; margin-bottom: 16px; }
+  .logo-row { display: flex; align-items: center; gap: 12px; }
+  .logo-circle {
+    width: 44px; height: 44px; border-radius: 50%;
+    background: #185FA5; display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .logo-circle svg { width: 22px; height: 22px; stroke: #E6F1FB; fill: none; stroke-width: 2; }
+  .org-name { font-size: 12px; color: #666; line-height: 1.6; }
+  .org-name strong { font-size: 14px; color: #1A1A1A; display: block; font-weight: 600; }
+  .title-block { margin-top: 12px; }
+  .main-title { font-size: 20px; font-weight: 700; color: #0C447C; }
+  .sub-title { font-size: 13px; color: #666; margin-top: 2px; }
+
+  /* Ref */
+  .ref-box {
+    background: #F5F5F5; border-left: 3px solid #185FA5;
+    border-radius: 0 6px 6px 0; padding: 10px 14px;
+    margin: 14px 0; font-size: 12px; color: #555; line-height: 1.6;
+  }
+  .ref-box strong { color: #1A1A1A; }
+
+  /* Progress */
+  .progress-wrap { margin: 14px 0 6px; }
+  .progress-bar {
+    height: 5px; background: #E5E7EB; border-radius: 3px; overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%; background: #185FA5; border-radius: 3px;
+    width: 0%; transition: width 0.35s ease;
+  }
+  .progress-label { font-size: 11px; color: #888; text-align: right; margin-top: 4px; }
+
+  /* Section */
+  .section { margin: 16px 0; }
+  .section-header {
+    display: flex; align-items: center; gap: 10px;
+    background: #185FA5; color: #E6F1FB;
+    padding: 9px 14px; border-radius: 8px; margin-bottom: 12px;
+  }
+  .section-header svg { width: 18px; height: 18px; stroke: #B5D4F4; fill: none; stroke-width: 2; flex-shrink: 0; }
+  .section-header span { font-size: 14px; font-weight: 600; }
+
+  /* Checklist */
+  .checklist { list-style: none; }
+  .checklist li {
+    display: flex; align-items: flex-start; gap: 12px;
+    padding: 9px 0; border-bottom: 1px solid #F0F0F0;
+    font-size: 13.5px; color: #1A1A1A; line-height: 1.6;
+  }
+  .checklist li:last-child { border-bottom: none; }
+  .check-box {
+    width: 20px; height: 20px; border: 1.5px solid #378ADD;
+    border-radius: 5px; flex-shrink: 0; margin-top: 2px;
+    cursor: pointer; display: flex; align-items: center; justify-content: center;
+    transition: background 0.15s, border-color 0.15s; background: #fff;
+  }
+  .check-box.checked { background: #185FA5; border-color: #185FA5; }
+  .check-box.checked::after { content: '✓'; color: #fff; font-size: 12px; font-weight: 700; }
+  .item-text { flex: 1; }
+  .tag {
+    display: inline-block; font-size: 10px; padding: 2px 8px;
+    border-radius: 4px; margin-left: 8px; vertical-align: middle; font-weight: 500;
+  }
+  .tag-green { background: #EAF3DE; color: #3B6D11; }
+  .tag-blue  { background: #E6F1FB; color: #0C447C; }
+  .tag-amber { background: #FAEEDA; color: #633806; }
+  .tag-gray  { background: #F0F0F0; color: #555; }
+
+  /* Note */
+  .note-box {
+    background: #FAEEDA; border: 1px solid #FAC775;
+    border-radius: 8px; padding: 10px 14px; margin: 12px 0;
+    font-size: 12.5px; color: #412402; line-height: 1.6;
+  }
+
+  /* Signature */
+  .sign-section { margin-top: 20px; border-top: 1.5px dashed #B5D4F4; padding-top: 18px; }
+  .sign-title { font-size: 14px; font-weight: 600; color: #0C447C; text-align: center; margin-bottom: 14px; }
+  .sign-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .sign-field label { font-size: 11.5px; color: #666; display: block; margin-bottom: 5px; }
+  .sign-field input {
+    width: 100%; border: none; border-bottom: 1px solid #CCC;
+    padding: 6px 2px; font-family: 'Sarabun', sans-serif; font-size: 14px;
+    background: transparent; color: #1A1A1A; outline: none;
+  }
+  .sign-field input:focus { border-bottom-color: #185FA5; }
+  .sign-area {
+    border: 1px solid #DDD; border-radius: 8px;
+    min-height: 70px; background: #FAFAFA;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .sign-area span { font-size: 12px; color: #AAAAAA; }
+  .full-col { grid-column: 1 / -1; }
+
+  /* Button */
+  .confirm-btn {
+    display: block; width: 100%; margin-top: 18px; padding: 13px;
+    background: #185FA5; color: #fff; border: none; border-radius: 9px;
+    font-family: 'Sarabun', sans-serif; font-size: 15px; font-weight: 600;
+    cursor: pointer; transition: background 0.15s;
+  }
+  .confirm-btn:hover { background: #0C447C; }
+  .confirm-btn:active { transform: scale(0.99); }
+  .confirm-btn.success { background: #3B6D11; }
+
+  /* Footer */
+  .footer-note {
+    text-align: center; font-size: 11.5px; color: #999; margin-top: 18px; line-height: 1.7;
+  }
+
+  /* Print */
+  @media print {
+    body { background: #fff; padding: 0; }
+    .page { box-shadow: none; border-radius: 0; max-width: 100%; }
+    .confirm-btn { display: none; }
+    .progress-wrap { display: none; }
+    @page { margin: 15mm; }
+  }
+
+  @media (max-width: 480px) {
+    .page-inner { padding: 20px 18px 24px; }
+    .sign-grid { grid-template-columns: 1fr; }
+    .full-col { grid-column: 1; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+  <div class="page-inner">
+
+    <div class="header">
+      <div class="logo-row">
+        <div class="logo-circle">
+          <svg viewBox="0 0 24 24"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="1"/><path d="m9 12 2 2 4-4"/></svg>
+        </div>
+        <div class="org-name">
+          <strong>มหาวิทยาลัยแม่ฟ้าหลวง</strong>
+          สถาบันวิจัยและนวัตกรรม &nbsp;|&nbsp; ส่วนจัดการทรัพย์สินทางปัญญาและนวัตกรรม
+        </div>
+      </div>
+      <div class="title-block">
+        <div class="main-title">คู่มือตรวจรับพัสดุ</div>
+        <div class="sub-title">สำหรับนักวิจัย / หัวหน้าโครงการ / เจ้าหน้าที่ผู้รับผิดชอบ</div>
+      </div>
+    </div>
+
+    <div class="ref-box">
+      อ้างถึง: <strong>บันทึกข้อความ เลขที่ อว 7701(6)/ว1204 ลงวันที่ 2 เมษายน 2569</strong><br>
+      เรื่อง แจ้งแนวทางปฏิบัติการตรวจรับพัสดุและการบริหารพัสดุ มหาวิทยาลัยแม่ฟ้าหลวง
+    </div>
+
+    <div class="progress-wrap">
+      <div class="progress-bar"><div class="progress-fill" id="prog"></div></div>
+      <div class="progress-label" id="prog-label">ยังไม่ได้ทำเครื่องหมาย (0/8)</div>
+    </div>
+
+    <!-- Section 1 -->
+    <div class="section">
+      <div class="section-header">
+        <svg viewBox="0 0 24 24"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+        <span>ส่วนที่ 1 — การตรวจรับพัสดุในโครงการ</span>
+      </div>
+      <ul class="checklist">
+        <li>
+          <div class="check-box" onclick="toggle(this)"></div>
+          <div class="item-text">
+            ถ่ายรูปพัสดุ <strong>ณ เวลาที่ตรวจรับจริง</strong> ให้เห็นพัสดุชัดเจน ถูกต้อง ครบถ้วน
+            <span class="tag tag-blue">ทุกรายการที่จัดซื้อ</span>
+          </div>
+        </li>
+        <li>
+          <div class="check-box" onclick="toggle(this)"></div>
+          <div class="item-text">
+            ถ่ายรูป <strong>คณะกรรมการตรวจรับ</strong> ขณะตรวจสอบหรือทดลองใช้งานพัสดุ
+            <span class="tag tag-blue">ต้องมีคน</span>
+          </div>
+        </li>
+        <li>
+          <div class="check-box" onclick="toggle(this)"></div>
+          <div class="item-text">
+            แนบรูปถ่ายพร้อม <strong>ใบตรวจรับพัสดุ</strong> หรือ <strong>ใบเสร็จรับเงิน</strong> ทุกครั้ง
+          </div>
+        </li>
+      </ul>
+      <div class="note-box">
+        ⚠️ ใช้กับโครงการที่ <strong>ยืมเงินทดรองจ่าย / เบิกสำรองจ่าย</strong> เพื่อจัดซื้อพัสดุหรือจ้างทำของ <strong>ไม่เกิน 100,000 บาท</strong>
+      </div>
+    </div>
+
+    <!-- Section 2 -->
+    <div class="section">
+      <div class="section-header">
+        <svg viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
+        <span>ส่วนที่ 2 — การบริหารพัสดุที่ยังไม่ได้ใช้ทั้งหมด</span>
+      </div>
+      <ul class="checklist">
+        <li>
+          <div class="check-box" onclick="toggle(this)"></div>
+          <div class="item-text">
+            จัดพื้นที่พักพัสดุที่ <strong>มั่นคง ปลอดภัย</strong> และเหมาะสมกับประเภทพัสดุ
+          </div>
+        </li>
+        <li>
+          <div class="check-box" onclick="toggle(this)"></div>
+          <div class="item-text">
+            จัดทำ <strong>บัญชีคุมพัสดุ</strong> บันทึกรับ–จ่ายให้เป็นปัจจุบัน เพื่อป้องกันสูญหายและเสื่อมสภาพ
+            <span class="tag tag-gray">Real-time</span>
+          </div>
+        </li>
+        <li>
+          <div class="check-box" onclick="toggle(this)"></div>
+          <div class="item-text">
+            วางแผนการเบิกจ่ายให้ <strong>สอดคล้องกับแผนงาน</strong> ลดพัสดุค้างสต็อกโดยไม่จำเป็น
+          </div>
+        </li>
+      </ul>
+    </div>
+
+    <!-- Section 3 -->
+    <div class="section">
+      <div class="section-header">
+        <svg viewBox="0 0 24 24"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+        <span>ส่วนที่ 3 — การจัดซื้อและจ้างทำของ (วัสดุ)</span>
+      </div>
+      <ul class="checklist">
+        <li>
+          <div class="check-box" onclick="toggle(this)"></div>
+          <div class="item-text">
+            หากเป็นกิจกรรมหลักของหน่วยงานและมีแผนงานล่วงหน้าแล้ว ให้จัดซื้อเป็น <strong>"วัสดุคงคลัง"</strong>
+            <span class="tag tag-amber">มีแผนล่วงหน้า</span>
+          </div>
+        </li>
+        <li>
+          <div class="check-box" onclick="toggle(this)"></div>
+          <div class="item-text">
+            พัสดุคงรูปทุกรายการ ต้องจัดทำ <strong>ทะเบียนคุมพัสดุ</strong> และตัดจ่ายตามการเบิกจ่ายจริง
+          </div>
+        </li>
+      </ul>
+    </div>
+
+    <!-- Signature -->
+    <div class="sign-section">
+      <div class="sign-title">✍️ ลงนามรับทราบแนวปฏิบัติ</div>
+      <div class="sign-grid">
+        <div class="sign-field">
+          <label>ชื่อ – นามสกุล ผู้รับทราบ</label>
+          <input type="text" placeholder="กรอกชื่อ-นามสกุล" id="f-name" />
+        </div>
+        <div class="sign-field">
+          <label>ตำแหน่ง / บทบาทในโครงการ</label>
+          <input type="text" placeholder="เช่น หัวหน้าโครงการ" id="f-role" />
+        </div>
+        <div class="sign-field">
+          <label>ชื่อโครงการ</label>
+          <input type="text" placeholder="ระบุชื่อโครงการ" id="f-project" />
+        </div>
+        <div class="sign-field">
+          <label>วันที่รับทราบ</label>
+          <input type="text" id="f-date" placeholder="" />
+        </div>
+        <div class="sign-field full-col">
+          <label>ลายมือชื่อผู้รับทราบ</label>
+          <div class="sign-area"><span>ลงลายมือชื่อหลังพิมพ์เอกสาร</span></div>
+        </div>
+      </div>
+      <button class="confirm-btn" id="confirm-btn" onclick="confirmForm()">✓ รับทราบและยืนยันแนวปฏิบัติแล้ว</button>
+    </div>
+
+    <div class="footer-note">
+      เอกสารนี้ต้องแนบพร้อมเอกสารโครงการก่อนรับเงินสนับสนุน<br>
+      สถาบันวิจัยและนวัตกรรม &nbsp;|&nbsp; มหาวิทยาลัยแม่ฟ้าหลวง
+    </div>
+
+  </div>
+</div>
+
+<script>
+const total = 8;
+function toggle(el) {
+  el.classList.toggle('checked');
+  updateProgress();
+}
+function updateProgress() {
+  const checked = document.querySelectorAll('.check-box.checked').length;
+  const pct = Math.round((checked / total) * 100);
+  document.getElementById('prog').style.width = pct + '%';
+  const label = document.getElementById('prog-label');
+  if (checked === total) {
+    label.textContent = '✓ ครบทุกข้อ (' + total + '/' + total + ')';
+    label.style.color = '#3B6D11';
+  } else {
+    label.textContent = 'ทำเครื่องหมายแล้ว (' + checked + '/' + total + ')';
+    label.style.color = '#888';
+  }
+}
+function confirmForm() {
+  const checked = document.querySelectorAll('.check-box.checked').length;
+  const name = document.getElementById('f-name').value.trim();
+  const project = document.getElementById('f-project').value.trim();
+  if (checked < total) {
+    alert('กรุณาทำเครื่องหมายให้ครบทุกข้อก่อนยืนยัน (' + checked + '/' + total + ' ข้อ)');
+    return;
+  }
+  if (!name) {
+    alert('กรุณากรอกชื่อ-นามสกุลผู้รับทราบ');
+    document.getElementById('f-name').focus();
+    return;
+  }
+  const btn = document.getElementById('confirm-btn');
+  btn.textContent = '✓ บันทึกแล้ว — ' + (name || 'ผู้รับทราบ');
+  btn.classList.add('success');
+  btn.disabled = true;
+}
+const today = new Date();
+const thMonths = ['มกราคม','กุมภาพันธ์','มีนาคม','เมษายน','พฤษภาคม','มิถุนายน','กรกฎาคม','สิงหาคม','กันยายน','ตุลาคม','พฤศจิกายน','ธันวาคม'];
+document.getElementById('f-date').value = today.getDate() + ' ' + thMonths[today.getMonth()] + ' ' + (today.getFullYear() + 543);
+</script>
+</body>
+</html>
